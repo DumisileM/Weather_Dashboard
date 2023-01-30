@@ -1,10 +1,7 @@
-
-
 var searchBtn = $('.search-button');
 var historyDiv = $('#history');
-
-
-
+var todayWeather = $('#today');
+var forecast = $('#forecast');
 var lat;
 var long;
 
@@ -16,12 +13,12 @@ function getLatLon(){
     if (searchCity){
 
         console.log(searchCity)
-        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid=d465fadd5a597a5801dffa0651fba644"
+        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid="
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function(response){
-            console.log(response)
+       
             latLong["lat"] = response.city.coord.lat;
             latLong["lon"] = response.city.coord.lon;
 
@@ -42,12 +39,12 @@ function getLatLon(){
 };
 
 function showWeather(response){
-    // this function displays the weather on the side 
-    // must be called when search button is clicked or when when history buttons are clicked
+    //on click search button show weather by calling the get weather funtions 
+   
 
 };
 
-function getCityWeather(){
+function getTodayWeather(){
     searchBtn.click(function(event){
         event.preventDefault();
         getLatLon();
@@ -57,13 +54,23 @@ function getCityWeather(){
         var lon = latLon.lon;
         var cityWeather = {}
         
-        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon="+lon+"&appid=d465fadd5a597a5801dffa0651fba644"
+        var queryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="+lon+"&units=imperial&appid="
 
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function(response){
             console.log(response)
+            cityWeather["city"]= response.name;
+            cityWeather["date"]=moment.unix(response.dt).format("DD-MMM-YYYY");
+            cityWeather["icon"]=  "http://openweathermap.org/img/wn/"+response.weather[0].icon+"@2x.png";
+            cityWeather["temp"]= response.main.temp;
+            cityWeather["humidity"]= response.main.humidity;
+            cityWeather["windSpeed"]= response.wind.speed;
+            console.log(cityWeather)
+            
+          
+
        
         });
         
@@ -73,7 +80,7 @@ function getCityWeather(){
 
 
 };
-getCityWeather()
+getTodayWeather()
 // var queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + searchCity + "&appid=d465fadd5a597a5801dffa0651fba644";
 
 
