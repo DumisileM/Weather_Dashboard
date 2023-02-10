@@ -1,87 +1,104 @@
-var searchBtn = $('.search-button');
-var historyDiv = $('#history');
-var todayWeather = $('#today');
-var forecast = $('#forecast');
-var lat;
-var long;
+let searchBtn = $('#search-button');
+let historyDiv = $('#history');
+let todayWeather = $('#today');
+let forecast = $('#forecast');
+let history = localStorage.getItem("history")
+let lat;
+let long;
 
+function setHistory(city){
+    let newBtn = $("<button class=btn-secondary search-button>").attr("type","submit");
+
+    $("#history").append(newBtn)
+    
+   
+
+};
+
+function getCurrentWeather(){
+
+}
 function getLatLon(){
-    var latLong = {
-        
-    };
-    var searchCity = $('#search-input').val();
-    if (searchCity){
+    let recentSearch = []
+  
+    searchBtn.click(function(event){
+        event.preventDefault();
+        let searchCity = $('#search-input').val();
+        let cityWeather = {}
+        if (searchCity){
 
-        console.log(searchCity)
-        var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid="
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function(response){
-       
-            latLong["lat"] = response.city.coord.lat;
-            latLong["lon"] = response.city.coord.lon;
+            console.log(searchCity)
+            recentSearch.push(searchCity)
+            let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&appid=15b165a624a11fe326633135320af3d9"
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response){
+           
+                let lat = response.city.coord.lat;
+                 let lon= response.city.coord.lon;
+                
+                let queryURLForecast = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="+lon+"&units=imperial&appid=15b165a624a11fe326633135320af3d9"
+                
 
-        localStorage.setItem("latAndLong",JSON.stringify(latLong))
+                $.ajax({
+                    url: queryURLForecast,
+                    method: "GET"
+                }).then(function(response){
+                    console.log(response)
+                    let currCity = response.name;
+                    let currentDate = moment.unix(response.dt).format("DD-MMM-YYYY");
+                    let icon =`https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`;
+                    let iconImg =  $("<img>").attr("src",icon );
+                    let temperature = response.main.temp;
+                    let windSpeed = response.wind.speed;
+                    let humidity = response.main.humidity;
+                    cityWeather["date"]= currentDate;
+                    cityWeather["city"]= currCity;
+                    cityWeather["icon"]= icon;
+                    cityWeather["temp"]= temperature;
+                    cityWeather["humidity"]= humidity;
+                    cityWeather["windSpeed"]= windSpeed;
+
+                    let cityHeading = $("<h2>").text(`${currCity} (${currentDate})`);
+
+                    todayWeather.append(cityHeading);
+                    todayWeather.append(iconImg);
 
             
+
         });
-        console.log(latLong)
+                
+            });
+          
+        
+        
+        };
+    
+    });
     
     
-    }
 
-
-
-    
    
   
 };
 
-function showWeather(response){
-    //on click search button show weather by calling the get weather funtions 
+getLatLon()
+
+function setHistory(city){
+    let newBtn = $("<button class=btn-secondary search-button>").attr("type","submit");
+
+    $("#history").append(newBtn)
+    
    
 
 };
 
-function getTodayWeather(){
-    searchBtn.click(function(event){
-        event.preventDefault();
-        getLatLon();
-        var latLon = JSON.parse(localStorage.getItem("latAndLong"));
-        console.log(latLon)
-        var lat = latLon.lat;
-        var lon = latLon.lon;
-        var cityWeather = {}
-        
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="+lon+"&units=imperial&appid="
-
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function(response){
-            console.log(response)
-            cityWeather["city"]= response.name;
-            cityWeather["date"]=moment.unix(response.dt).format("DD-MMM-YYYY");
-            cityWeather["icon"]=  "http://openweathermap.org/img/wn/"+response.weather[0].icon+"@2x.png";
-            cityWeather["temp"]= response.main.temp;
-            cityWeather["humidity"]= response.main.humidity;
-            cityWeather["windSpeed"]= response.wind.speed;
-            console.log(cityWeather)
-            
-          
-
-       
-        });
-        
 
 
-    });
 
 
-};
-getTodayWeather()
-// var queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + searchCity + "&appid=d465fadd5a597a5801dffa0651fba644";
+// let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + searchCity + "&appid=d465fadd5a597a5801dffa0651fba644";
 
 
 
