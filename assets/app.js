@@ -6,19 +6,9 @@ let history = localStorage.getItem("history")
 let lat;
 let long;
 
-function setHistory(city){
-    let newBtn = $("<button class=btn-secondary search-button>").attr("type","submit");
 
-    $("#history").append(newBtn)
-    
-   
 
-};
-
-function getCurrentWeather(){
-
-}
-function getLatLon(){
+function getWeather(){
     let recentSearch = []
   
     searchBtn.click(function(event){
@@ -49,7 +39,6 @@ function getLatLon(){
                     let currCity = response.name;
                     let currentDate = moment.unix(response.dt).format("DD-MMM-YYYY");
                     let icon =`https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`;
-                    let iconImg =  $("<img>").attr("src",icon );
                     let temperature = response.main.temp;
                     let windSpeed = response.wind.speed;
                     let humidity = response.main.humidity;
@@ -60,19 +49,20 @@ function getLatLon(){
                     cityWeather["humidity"]= humidity;
                     cityWeather["windSpeed"]= windSpeed;
 
-                    let cityHeading = $("<h2>").text(`${currCity} (${currentDate})`);
+                    $("#city-heading").text(`${currCity} (${currentDate})`);
+                    $("#weather-icon").attr({"src":icon, alt:"weather icon"});
+                    $("#today-temp").text(`Temp: ${temperature}`);
+                    $("#today-wind").text(`Wind: ${windSpeed}`);
+                    $("#today-humidity").text(`Humidity: ${humidity}`);
 
-                    todayWeather.append(cityHeading);
-                    todayWeather.append(iconImg);
+                 
 
-            
+                    localStorage.setItem("history",recentSearch);
 
         });
                 
             });
-          
-        
-        
+
         };
     
     });
@@ -83,16 +73,7 @@ function getLatLon(){
   
 };
 
-getLatLon()
-
-function setHistory(city){
-    let newBtn = $("<button class=btn-secondary search-button>").attr("type","submit");
-
-    $("#history").append(newBtn)
-    
-   
-
-};
+getWeather()
 
 
 
