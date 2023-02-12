@@ -10,6 +10,8 @@ let history = localStorage.getItem("history")
 
 
 function getForecast(arr){
+    forecast.empty();
+
     let queryURLForecast = "https://api.openweathermap.org/data/2.5/forecast?lat=" + arr[0] + "&lon="+arr[1]+"&units=metric&appid=15b165a624a11fe326633135320af3d9"
     
     
@@ -17,7 +19,8 @@ function getForecast(arr){
         url: queryURLForecast,
         method: "GET"
     }).then(function(response){
-        let forecastCard = $("<div class=col-lg-2>").attr("id","forecast-card");
+
+       
         
         for (let i=1; i < response.list.length;){
             let windSpeed = response.list[i].wind.speed
@@ -36,18 +39,19 @@ function getForecast(arr){
             // cityWeather["windSpeed"]= windSpeed;
 
            
-            
-            let dateHeading =$("<h2>").text(date);
+            let forecastCard = $("<div class=col-md-6>").attr("id","forecast-card").addClass("col-lg-3");
+            forecast.append(forecastCard);
+
+            let dateHeading =$("<h2>").text(date).addClass("card-content");;
            
             forecastCard.append(dateHeading);
-            let iconImg = $("<img>").attr("src", icon);
+            let iconImg = $("<img>").attr("src", icon).addClass("card-content");;
             forecastCard.append(iconImg)
-            let weatherUl= $("<ul>");
+            let weatherUl= $("<ul>").addClass("card-content");
             forecastCard.append(weatherUl);
             let tempLi = $("<li>").text(`Temp: ${temperature}`);
             let windLi = $("<li>").text(`Wind: ${windSpeed} KPH`);
             let humidityLi = $("<li>").text(`Humidity: ${humidity}%`);
-            forecast.append(forecastCard)
 
             weatherUl.append(tempLi);
             weatherUl.append(windLi);
@@ -64,13 +68,14 @@ function getForecast(arr){
 
 
         }
+
       
 
 });
 };
 
 function getWeather(arr){
-    let recentSearch = []
+    
 
         
     let cityWeather = {}

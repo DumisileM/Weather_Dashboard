@@ -15,7 +15,8 @@ body{
     background-color: #E57C04;
 }
 h2{
-    font-weight: bolder;
+    font-weight: bold;
+    
 }
 
 ul{
@@ -54,13 +55,39 @@ ul{
     border-bottom: 1px solid;
     border-color: var(--border-color)
 }
-.weather{
+#today{
     border: var(--border);
 
 }
-img{
+#weather-icon{
+    width: 100px;
+    height: 100px;
     border: none;
 }
 #weather-details li{
     margin:15px;
+}
+#forecast{
+    align-items: center;
+    flex-direction: row;
+}
+#forecast-card{
+    margin:15px;
+    border: 3px solid;
+    padding: 0;
+    border-color:#F63E02;
+    
+    text-align: center;
+}
+@media only screen and (max-width:991.98px) {
+    
+    .input-group{
+        border-bottom: none;
+        width:80%;
+    }
+ 
+}
+
+@media only screen and (max-width:767.98.98px) {
+  
 }
