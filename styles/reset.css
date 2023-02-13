@@ -3,7 +3,8 @@
     --margin: 15px;
     --border-color: rgb(118, 118, 118), rgb(133, 133, 133);
     --box-shadow: 0 1px 4px rgba(146, 161, 176, 0.4);
-    --box-shadow-hover: 0 1px 4px rgba(91, 99, 107, 0.8);
+    --box-shadow-hover: 0 1px 4px rgb(0, 1, 1);
+    --div-border: 3px solid #F63E02;
   }
 body{
     font-family: 'Pacifico', cursive;
@@ -32,7 +33,7 @@ ul{
     margin: var(--margin);
     border-radius: 1em;
     background-color: #F63E02;
-    border-color: var(--border-color)
+    border-color: var(--div-border)
     
 }
 .search-button:hover{
@@ -56,7 +57,7 @@ ul{
     border-color: var(--border-color)
 }
 #today{
-    border: var(--border);
+    border: var(--div-border);
 
 }
 #weather-icon{
@@ -73,11 +74,10 @@ ul{
 }
 #forecast-card{
     margin:15px;
-    border: 3px solid;
+    border: var(--div-border);
     padding: 0;
-    border-color:#F63E02;
-    
     text-align: center;
+    box-shadow: var(--box-shadow-hover);
 }
 @media only screen and (max-width:991.98px) {
     

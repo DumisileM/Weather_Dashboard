@@ -2,7 +2,7 @@ let searchBtn = $('#search-button');
 let historyDiv = $('#history');
 let todayWeather = $('#today');
 let forecast = $('#forecast');
-let history = localStorage.getItem("history")
+let history = localStorage.getItem("history");
 
 
 
@@ -39,7 +39,7 @@ function getForecast(arr){
             // cityWeather["windSpeed"]= windSpeed;
 
            
-            let forecastCard = $("<div class=col-md-6>").attr("id","forecast-card").addClass("col-lg-3");
+            let forecastCard = $("<div class=col-md-6>").attr("id","forecast-card").addClass("col-lg-4");
             forecast.append(forecastCard);
 
             let dateHeading =$("<h2>").text(date).addClass("card-content");;
@@ -78,9 +78,9 @@ function getWeather(arr){
     
 
         
-    let cityWeather = {}
+    
     let queryURLWeather = "https://api.openweathermap.org/data/2.5/weather?lat=" + arr[0] + "&lon="+arr[1]+"&units=metric&appid=15b165a624a11fe326633135320af3d9"
-            
+   
 
     $.ajax({
         url: queryURLWeather,
@@ -93,29 +93,25 @@ function getWeather(arr){
         let temperature = response.main.temp;
         let windSpeed = response.wind.speed;
         let humidity = response.main.humidity;
-        cityWeather["date"]= currentDate;
-        cityWeather["city"]= currCity;
-        cityWeather["icon"]= icon;
-        cityWeather["temp"]= temperature;
-        cityWeather["humidity"]= humidity;
-        cityWeather["windSpeed"]= windSpeed;
+   
 
         $("#city-heading").text(`${currCity} (${currentDate})`);
         $("#weather-icon").attr({"src":icon, alt:"weather icon"});
         $("#today-temp").text(`Temp: ${temperature}`);
         $("#today-wind").text(`Wind: ${windSpeed} KPH`);
         $("#today-humidity").text(`Humidity: ${humidity}%`);
-        localStorage.setItem("history",recentSearch);
+        
 
     });
                 
            
 
 };
-function getLatAndLon(){
-    let searchCity = $('#search-input').val();
-    ;
-    if (searchCity){
+function getLatAndLon(searchCity){
+    
+    
+
+    
 
         console.log(searchCity)
         let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity + "&&appid=15b165a624a11fe326633135320af3d9&cnt=5"
@@ -128,7 +124,7 @@ function getLatAndLon(){
             lon= response.city.coord.lon;
             getForecast([lat,lon]);
             getWeather([lat,lon]);
-            
+           
            
 
              
@@ -137,20 +133,41 @@ function getLatAndLon(){
        
 
     };
-};
 
-//function to get details of city clicked in history
+//click events and save previously searched to local storage
+
+   let searchHistory = [];
+
+    searchBtn.click(function(event){
     
-   
-
-searchBtn.click(function(event){
     event.preventDefault();
+    let searchCity = $('#search-input').val().toLowerCase();
+    if(searchCity){
+        if(!searchHistory.includes(searchCity)){
+            searchHistory.push(searchCity)
+            let newBtn = $("<button class= history-search-button>").text(searchCity).addClass("search-button")
+            historyDiv.append(newBtn);
 
-   getLatAndLon();
+
+
+        };
+        $(".history-search-button").click(function(event){
+            event.preventDefault();
+            let value = $(event.target).text();
+            console.log(value)
+            
+            getLatAndLon(value)
+        });
+        
+
+        getLatAndLon(searchCity);
+
+    };
+    localStorage.setItem("history",searchHistory)
+
+    });
+
     
-    // getWeather(coOrds);
-    // getForecast(coOrds);
-})
 
 
 
