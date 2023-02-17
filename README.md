@@ -21,9 +21,9 @@ Your past searches are saved as you search and you can click on the the buttons 
 For reference, this is what the website should look like:  
 
 
-![weather app on mobile](./assets/weather-small.pngweather-small.png)
+![weather app on mobile](docs/assets/weather-small.png)
 
-![weather app on bigger screens](./assests/weather-big.png)
+![weather app on bigger screens](/docs/assets/weather-big.png)
 ## Credits
 N/A
 
