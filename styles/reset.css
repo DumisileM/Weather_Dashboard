@@ -10,10 +10,11 @@ body{
     font-family: 'Pacifico', cursive;
     font-family: 'Raleway', sans-serif; 
     color:black;
+    background-color: #ffdac6;
 
 } 
 .weather-header{
-    background-color: #E57C04;
+    background-color: #F63E02;
 }
 h2{
     font-weight: bold;
