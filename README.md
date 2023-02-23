@@ -10,7 +10,7 @@ The app uses the openweather API to get its data and provides a user friendly in
 
 ## Installation/Access
 The app  has been deployed on GitHub pages and can be accessed via this link:  
-https://dumisilem.github.io/WeatherDashBoard
+https://dumisilem.github.io/Weather_Dashboard
 
 
 ## Usage 
